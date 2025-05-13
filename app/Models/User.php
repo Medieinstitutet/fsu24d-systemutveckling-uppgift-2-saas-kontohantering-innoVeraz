@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -44,5 +45,26 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * De nyhetsbrev som denna kund äger.
+     */
+    public function newsletters()
+    {
+        return $this->hasMany(Newsletter::class);
+    }
+
+    /**
+     * De nyhetsbrev som denna användare prenumererar på.
+     */
+    public function subscriptions()
+    {
+        return $this->belongsToMany(
+            Newsletter::class,
+            'subscriptions',   // pivot-tabellen
+            'user_id',         // FK i pivot mot denna user
+            'newsletter_id'    // FK i pivot mot nyhetsbrevet
+        )->withTimestamps();
     }
 }
