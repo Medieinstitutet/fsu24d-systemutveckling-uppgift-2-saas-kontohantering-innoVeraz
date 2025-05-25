@@ -16,10 +16,10 @@
     
     @guest
         <div class="bg-white shadow-md rounded-lg p-6 mb-6 text-center">
-            <h2 class="text-2xl font-semibold mb-4">You are currently logged out</h2>
-            <p class="mb-8 mx-auto max-w-2xl">Log in to manage your newsletters or subscriptions, or create an account if you're new here.</p>
+            <h2 class="text-2xl font-semibold mb-4">Welcome</h2>
+            <p class="mb-8 mx-auto max-w-sm">Log in to manage your newsletters or subscriptions, or create an account if you're new here.</p>
             
-            <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-md mx-auto">
+            <div class="flex flex-col justify-center gap-4 max-w-xs  mx-auto">
                 <a href="{{ route('login') }}" class="bg-blue-600 text-white px-6 py-3 rounded-lg text-center hover:bg-blue-700 flex-grow">
                     Login to your account
                 </a>

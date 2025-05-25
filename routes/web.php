@@ -9,6 +9,8 @@ Route::get('/newsletters', [NewsletterController::class, 'index'])
      ->name('newsletters.index');
 Route::get('/newsletters/{newsletter}', [NewsletterController::class, 'show'])
      ->name('newsletters.show');
+Route::get('/logged-out', fn() => view('auth.logged-out'))
+     ->name('logged-out');
 
 require __DIR__.'/auth.php';
 
