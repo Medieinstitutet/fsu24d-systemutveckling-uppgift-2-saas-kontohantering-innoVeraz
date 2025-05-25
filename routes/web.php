@@ -4,22 +4,18 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NewsletterController;
 use Illuminate\Support\Facades\Route;
 
-// Public routes
 Route::get('/', fn() => view('home'));
 Route::get('/newsletters', [NewsletterController::class, 'index'])
      ->name('newsletters.index');
 Route::get('/newsletters/{newsletter}', [NewsletterController::class, 'show'])
      ->name('newsletters.show');
 
-require __DIR__.'/auth.php'; // login/register/password reset
+require __DIR__.'/auth.php';
 
-// All routes below require authentication
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Dashboard
     Route::get('/dashboard', fn() => view('dashboard'))
          ->name('dashboard');
 
-    // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])
          ->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])
@@ -27,19 +23,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])
          ->name('profile.destroy');
 
-    // Newsletter subscriptions
     Route::post('/newsletters/{newsletter}/subscribe', [NewsletterController::class, 'subscribe'])
          ->name('newsletters.subscribe');
     Route::post('/newsletters/{newsletter}/unsubscribe', [NewsletterController::class, 'unsubscribe'])
          ->name('newsletters.unsubscribe');
     
-    // Subscriber-specific routes
     Route::middleware(['role:subscriber'])->group(function () {
         Route::get('/my-subscriptions', [NewsletterController::class, 'mySubscriptions'])
              ->name('subscriptions.my');
     });
     
-    // Customer-specific routes
     Route::middleware(['role:customer'])->group(function () {
         Route::get('/my-subscribers', [NewsletterController::class, 'mySubscribers'])
              ->name('subscribers.my');
@@ -48,5 +41,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
              ->name('newsletter.my.edit');
         Route::put('/my-newsletter', [NewsletterController::class, 'updateMyNewsletter'])
              ->name('newsletter.my.update');
+        
+        Route::get('/newsletters/create', [NewsletterController::class, 'create'])
+             ->name('newsletters.create');
+        Route::post('/newsletters', [NewsletterController::class, 'store'])
+             ->name('newsletters.store');
+        Route::get('/newsletters/{newsletter}/edit', [NewsletterController::class, 'edit'])
+             ->name('newsletters.edit');
+        Route::put('/newsletters/{newsletter}', [NewsletterController::class, 'update'])
+             ->name('newsletters.update');
+        Route::delete('/newsletters/{newsletter}', [NewsletterController::class, 'destroy'])
+             ->name('newsletters.destroy');
     });
 });

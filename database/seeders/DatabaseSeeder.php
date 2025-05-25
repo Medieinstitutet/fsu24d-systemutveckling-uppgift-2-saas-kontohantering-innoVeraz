@@ -4,36 +4,42 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Newsletter;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // Test customer user
-        $customer = User::factory()->create([
-            'name' => 'Test Customer',
-            'email' => 'customer@example.com',
-            'password' => bcrypt('password'), // Set a known password
+        $customer1 = User::factory()->create([
+            'name' => 'Test Customer 1',
+            'email' => 'customer1@example.com',
+            'password' => bcrypt('password'),
             'role' => 'customer',
         ]);
         
-        // Create a newsletter for this customer
         Newsletter::create([
-            'name' => 'Test Customer Newsletter',
-            'description' => 'This is a newsletter for testing purposes.',
-            'user_id' => $customer->id,
+            'name' => 'Test Customer 1 Newsletter',
+            'description' => 'This is the first newsletter for testing purposes.',
+            'user_id' => $customer1->id,
         ]);
         
-        // Test subscriber user
+        $customer2 = User::factory()->create([
+            'name' => 'Test Customer 2',
+            'email' => 'customer2@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'customer',
+        ]);
+        
+        Newsletter::create([
+            'name' => 'Test Customer 2 Newsletter',
+            'description' => 'This is the second newsletter for testing purposes.',
+            'user_id' => $customer2->id,
+        ]);
+        
         User::factory()->create([
             'name' => 'Test Subscriber',
             'email' => 'subscriber@example.com',
-            'password' => bcrypt('password'), // Set a known password
+            'password' => bcrypt('password'),
             'role' => 'subscriber',
         ]);
     }

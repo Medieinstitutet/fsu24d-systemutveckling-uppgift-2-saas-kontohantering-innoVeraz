@@ -15,17 +15,11 @@ class Newsletter extends Model
         'user_id',
     ];
 
-    /**
-     * Get the customer who owns this newsletter.
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Get all subscribers of this newsletter.
-     */
     public function subscribers()
     {
         return $this->belongsToMany(
