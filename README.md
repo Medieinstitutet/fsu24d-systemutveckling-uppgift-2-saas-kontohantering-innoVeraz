@@ -1,61 +1,152 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Newsletter Management SaaS Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based Software-as-a-Service (SaaS) application for managing newsletters, subscriptions, and user accounts. This project demonstrates role-based access control, relationship management, and Laravel best practices.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **User Authentication**: Complete authentication system with registration and login
+- **Role-Based Access Control**: Different roles for subscribers and newsletter owners (customers)
+- **Newsletter Management**: Create, update, and delete newsletters
+- **Subscription System**: Subscribe to and unsubscribe from newsletters
+- **User Dashboard**: Personalized dashboard experience based on user role
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Technologies Used
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Backend**: Laravel 10, PHP 8+
+- **Frontend**: Blade templates, TailwindCSS
+- **Database**: SQLite (default), supports MySQL and PostgreSQL
+- **Development Environment**: Docker for containerized development
 
-## Learning Laravel
+## Prerequisites
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Docker and Docker Compose
+- Composer
+- Node.js and NPM
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Using Docker
 
-## Laravel Sponsors
+1. Clone the repository:
+   ```
+   git clone <repository-url>
+   cd fsu24d-systemutveckling-uppgift-2-saas-kontohantering-innoveraz
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. Copy the environment file:
+   ```
+   cp .env.example .env
+   ```
 
-### Premium Partners
+3. Start the Docker containers:
+   ```
+   docker-compose up -d
+   ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+4. Install PHP dependencies:
+   ```
+   docker-compose exec app composer install
+   ```
+
+5. Generate application key:
+   ```
+   docker-compose exec app php artisan key:generate
+   ```
+
+6. Run migrations and seed the database:
+   ```
+   docker-compose exec app php artisan migrate --seed
+   ```
+
+7. Install frontend dependencies and build:
+   ```
+   npm install
+   npm run dev
+   ```
+
+### Manual Installation
+
+1. Clone the repository:
+   ```
+   git clone <repository-url>
+   cd fsu24d-systemutveckling-uppgift-2-saas-kontohantering-innoveraz
+   ```
+
+2. Copy the environment file:
+   ```
+   cp .env.example .env
+   ```
+
+3. Install PHP dependencies:
+   ```
+   composer install
+   ```
+
+4. Generate application key:
+   ```
+   php artisan key:generate
+   ```
+
+5. Configure your database in the .env file
+
+6. Run migrations and seed the database:
+   ```
+   php artisan migrate --seed
+   ```
+
+7. Install frontend dependencies and build:
+   ```
+   npm install
+   npm run dev
+   ```
+
+8. Start the development server:
+   ```
+   php artisan serve
+   ```
+
+## Usage
+
+After installation, you can access the application at http://localhost (Docker) or http://localhost:8000 (manual installation).
+
+### User Roles
+
+- **Subscriber**: Can subscribe to and view newsletters
+- **Customer**: Can create and manage their own newsletters, view subscriber lists
+
+### Main Routes
+
+- `/`: Home page
+- `/register`: Create a new account
+- `/login`: Login to existing account
+- `/dashboard`: User dashboard
+- `/newsletters`: Browse available newsletters
+- `/my-subscriptions`: View subscribed newsletters (subscriber role)
+- `/my-subscribers`: View newsletter subscribers (customer role)
+- `/newsletters/create`: Create a new newsletter (customer role)
+
+## Testing
+
+Run the test suite with:
+
+```
+php artisan test
+```
+
+Or using Pest:
+
+```
+./vendor/bin/pest
+```
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Fork the repository
+2. Create your feature branch: `git checkout -b feature/my-new-feature`
+3. Commit your changes: `git commit -am 'Add new feature'`
+4. Push to the branch: `git push origin feature/my-new-feature`
+5. Submit a pull request
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
