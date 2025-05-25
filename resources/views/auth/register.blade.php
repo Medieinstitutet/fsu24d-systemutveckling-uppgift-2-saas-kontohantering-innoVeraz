@@ -16,6 +16,16 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
+        <!-- Role Selection -->
+        <div class="mt-4">
+            <x-input-label for="role" :value="__('Account Type')" />
+            <select id="role" name="role" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                <option value="subscriber" {{ old('role') == 'subscriber' ? 'selected' : '' }}>Subscriber - Subscribe to newsletters</option>
+                <option value="customer" {{ old('role') == 'customer' ? 'selected' : '' }}>Customer - Create and manage newsletters</option>
+            </select>
+            <x-input-error :messages="$errors->get('role')" class="mt-2" />
+        </div>
+
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />

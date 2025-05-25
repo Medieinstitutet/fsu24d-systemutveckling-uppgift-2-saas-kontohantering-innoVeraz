@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', fn() => view('home'));
 Route::get('/newsletters', [NewsletterController::class, 'index'])
      ->name('newsletters.index');
+Route::get('/newsletters/{newsletter}', [NewsletterController::class, 'show'])
+     ->name('newsletters.show');
 
 require __DIR__.'/auth.php'; // login/register/password reset
 
@@ -30,4 +32,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
          ->name('newsletters.subscribe');
     Route::post('/newsletters/{newsletter}/unsubscribe', [NewsletterController::class, 'unsubscribe'])
          ->name('newsletters.unsubscribe');
+    
+    // Subscriber-specific routes
+    Route::middleware(['role:subscriber'])->group(function () {
+        Route::get('/my-subscriptions', [NewsletterController::class, 'mySubscriptions'])
+             ->name('subscriptions.my');
+    });
+    
+    // Customer-specific routes
+    Route::middleware(['role:customer'])->group(function () {
+        Route::get('/my-subscribers', [NewsletterController::class, 'mySubscribers'])
+             ->name('subscribers.my');
+        
+        Route::get('/my-newsletter', [NewsletterController::class, 'editMyNewsletter'])
+             ->name('newsletter.my.edit');
+        Route::put('/my-newsletter', [NewsletterController::class, 'updateMyNewsletter'])
+             ->name('newsletter.my.update');
+    });
 });

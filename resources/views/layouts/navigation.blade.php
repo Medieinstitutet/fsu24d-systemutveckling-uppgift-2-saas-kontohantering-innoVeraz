@@ -9,14 +9,32 @@
           </a>
         </div>
 
-        <!-- Navigation Links (endast inloggade?) -->
-        @auth
-          <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+        <!-- Navigation Links for all users -->
+        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+          <x-nav-link :href="route('newsletters.index')" :active="request()->routeIs('newsletters.index')">
+            {{ __('All Newsletters') }}
+          </x-nav-link>
+
+          @auth
             <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
               {{ __('Dashboard') }}
             </x-nav-link>
-          </div>
-        @endauth
+            
+            <!-- Role-specific navigation links -->
+            @if (auth()->user()->role === 'subscriber')
+              <x-nav-link :href="route('subscriptions.my')" :active="request()->routeIs('subscriptions.my')">
+                {{ __('My Subscriptions') }}
+              </x-nav-link>
+            @elseif (auth()->user()->role === 'customer')
+              <x-nav-link :href="route('subscribers.my')" :active="request()->routeIs('subscribers.my')">
+                {{ __('My Subscribers') }}
+              </x-nav-link>
+              <x-nav-link :href="route('newsletter.my.edit')" :active="request()->routeIs('newsletter.my.edit')">
+                {{ __('My Newsletter') }}
+              </x-nav-link>
+            @endif
+          @endauth
+        </div>
       </div>
 
       <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -65,32 +83,54 @@
 
   <!-- Responsive-meny -->
   <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-    @auth
-      <div class="pt-2 pb-3 space-y-1">
+    <!-- All Newsletters link for mobile -->
+    <div class="pt-2 pb-3 space-y-1">
+      <x-responsive-nav-link :href="route('newsletters.index')" :active="request()->routeIs('newsletters.index')">
+        {{ __('All Newsletters') }}
+      </x-responsive-nav-link>
+      
+      @auth
         <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
           {{ __('Dashboard') }}
         </x-responsive-nav-link>
-      </div>
-      <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
-        <div class="px-4">
-          <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
-          <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-        </div>
-        <div class="mt-3 space-y-1">
-          <x-responsive-nav-link :href="route('profile.edit')">
-            {{ __('Profile') }}
+        
+        <!-- Role-specific responsive nav links -->
+        @if (auth()->user()->role === 'subscriber')
+          <x-responsive-nav-link :href="route('subscriptions.my')" :active="request()->routeIs('subscriptions.my')">
+            {{ __('My Subscriptions') }}
           </x-responsive-nav-link>
-          <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <x-responsive-nav-link :href="route('logout')"
-                                   onclick="event.preventDefault(); this.closest('form').submit();">
-              {{ __('Log Out') }}
-            </x-responsive-nav-link>
-          </form>
-        </div>
-      </div>
-    @endauth
+        @elseif (auth()->user()->role === 'customer')
+          <x-responsive-nav-link :href="route('subscribers.my')" :active="request()->routeIs('subscribers.my')">
+            {{ __('My Subscribers') }}
+          </x-responsive-nav-link>
+          <x-responsive-nav-link :href="route('newsletter.my.edit')" :active="request()->routeIs('newsletter.my.edit')">
+            {{ __('My Newsletter') }}
+          </x-responsive-nav-link>
+        @endif
+      @endauth
+    </div>
 
+    @auth
+    <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+      <div class="px-4">
+        <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
+        <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+      </div>
+      <div class="mt-3 space-y-1">
+        <x-responsive-nav-link :href="route('profile.edit')">
+          {{ __('Profile') }}
+        </x-responsive-nav-link>
+        <form method="POST" action="{{ route('logout') }}">
+          @csrf
+          <x-responsive-nav-link :href="route('logout')"
+                                 onclick="event.preventDefault(); this.closest('form').submit();">
+            {{ __('Log Out') }}
+          </x-responsive-nav-link>
+        </form>
+      </div>
+    </div>
+    @endauth
+    
     @guest
       <div class="pt-2 pb-3 space-y-1">
         <x-responsive-nav-link :href="route('login')">

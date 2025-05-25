@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Newsletter;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -33,13 +34,24 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role' => ['required', 'string', 'in:customer,subscriber'],
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role,
         ]);
+
+        // If user is a customer, create a default newsletter for them
+        if ($request->role === 'customer') {
+            Newsletter::create([
+                'name' => $user->name . "'s Newsletter",
+                'description' => 'A newsletter by ' . $user->name,
+                'user_id' => $user->id,
+            ]);
+        }
 
         event(new Registered($user));
 
