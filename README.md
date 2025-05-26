@@ -1,3 +1,7 @@
+## 📬 Password Reset and Email Delivery
+The reset email might be cought in your spam or bin. Make sure you check them.
+
+
 # Newsletter Management SaaS Application
 
 A Laravel-based Software-as-a-Service (SaaS) application for managing newsletters, subscriptions, and user accounts. This project demonstrates role-based access control, relationship management, and Laravel best practices.
@@ -14,7 +18,7 @@ A Laravel-based Software-as-a-Service (SaaS) application for managing newsletter
 
 - **Backend**: Laravel 10, PHP 8+
 - **Frontend**: Blade templates, TailwindCSS
-- **Database**: SQLite (default), supports MySQL and PostgreSQL
+- **Database**: MySQL 
 - **Development Environment**: Docker for containerized development
 
 ## Prerequisites
